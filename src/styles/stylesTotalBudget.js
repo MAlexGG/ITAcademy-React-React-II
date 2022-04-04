@@ -5,6 +5,12 @@ export const CtTotal = styled.div`
     padding: 50px 0px 0px 100px;
 `;
 
+export const CtBudgets = styled.div`
+    display: grid;
+    grid-template-columns: 306px 306px;
+    gap: 15px;
+`;
+
 export const CtBudgetSubmited = styled.div`
     border: 3px solid black;
     border-radius: 10px;

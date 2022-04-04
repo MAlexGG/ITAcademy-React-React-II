@@ -3,20 +3,9 @@ import { useLocalStorage } from './useLocalStorage';
 import { BtForm, BtInfo, ButtonPanell, CtBudget, CtButtons, CtClientBudget, InputClient, InputPanell, Panell } from '../styles/styled';
 import { Link } from 'react-router-dom';
 import PopUp from './popUp';
-import { CtTotal } from '../styles/stylesTotalBudget';
+import { CtBudgets, CtTotal } from '../styles/stylesTotalBudget';
 import TotalBudget from './totalBudget';
 
-
-const initialTotal = [{
-        budgetName: '',
-        client: '',
-        web: '',
-        pages: 0,
-        lang: 0,
-        seo: '',
-        google: '',
-        cost: 0
-    }]
 
 export default function Budget() {
 
@@ -27,7 +16,7 @@ export default function Budget() {
     const [isPageVisible, setIsPageVisible] = useState(false);
     const [isLangVisible, setIsLangVisible] = useState(false);
     const [cost, setCost] = useState(0);
-    const [total, setTotal] = useState(initialTotal);
+    const [total, setTotal] = useState([]);
 
     const handleInput = (e) => {
         e.persist();
@@ -87,8 +76,8 @@ export default function Budget() {
     }, [google.cost, seo.cost, web.cost, web.lang, web.pages])
     
     const handleSubmit = () => {
-        setTotal({
-            ...total,
+        setTotal([...total,
+            {
             budgetName: budget.budget,
             client: budget.client,
             web: (web.check === true ? 'web' : ''),
@@ -97,8 +86,11 @@ export default function Budget() {
             seo: (seo.check === true ? 'SEO' : ''),
             google: (google.check === true ? 'Google Ads' : ''),
             cost: cost
-        });
+            }
+        ]);
     };
+
+    console.log(total);
 
     return (
         <CtClientBudget>
@@ -148,7 +140,13 @@ export default function Budget() {
 
             <CtTotal>
                 <h2>Resumen de Presupuestos</h2>
-                <TotalBudget name={total.budgetName} client={total.client} cost={total.cost} web={total.web} pages={total.pages} lang={total.lang} seo={total.seo} google={total.google}/>
+                <CtBudgets>
+                    {
+                    total.map(((item, index) => (
+                        <TotalBudget item={item} key={index}/>  
+                    )))
+                    }
+                </CtBudgets>
             </CtTotal>
 
         </CtClientBudget>
